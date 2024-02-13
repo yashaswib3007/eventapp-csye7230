@@ -2,13 +2,20 @@
 name: User Story template
 about: User Story Template
 title: User Story
-labels: ''
+labels: user story
 assignees: ''
 
 ---
 
-##User Story
+## User Story
+*As a* [Role],  
+*I would like* [Requirement]  
+*so that* [Reason].
 
-##Detailed Description
+## Detailed Description
+[Provide additional details and context.]
 
-##Acceptance Criteria
+## Acceptance Criteria
+- [ ] *Given* [Condition], *then* [Expected Result]
+- [ ] *Given* [Condition], *then* [Expected Result]
+- [ ] *Given* [Condition], *then* [Expected Result]
