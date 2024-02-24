@@ -4,6 +4,8 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
   role: { type: String, required: true, enum: ['organizer', 'attendee'] }, // Added role field
+  passwordResetToken: String,
+  passwordResetExpires: Date,
 });
 
 const User = mongoose.model('User', userSchema);

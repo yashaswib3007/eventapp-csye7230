@@ -8,7 +8,13 @@ const Event = require('./event');
 require('dotenv').config();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
+
+const authRoutes = require('./routes/authRoutes');
+const passwordRoutes = require('./routes/passwordRoutes'); 
+app.use(authRoutes);
+app.use(passwordRoutes);
 
 // Middleware to verify token (move this declaration above route handlers)
 
@@ -32,57 +38,57 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/mydatabas
 .catch(error => console.error('Error connecting to MongoDB:', error));
 
 // User Registration Endpoint
-app.post('/register', async (req, res) => {
-  try {
-    const { username, password, role } = req.body; // Include role in the destructuring
+// app.post('/register', async (req, res) => {
+//   try {
+//     const { username, password, role } = req.body; // Include role in the destructuring
     
-    // You might want to validate the role here before proceeding
-    if (!['organizer', 'attendee'].includes(role)) {
-      return res.status(400).send('Invalid role specified');
-    }
+//     // You might want to validate the role here before proceeding
+//     if (!['organizer', 'attendee'].includes(role)) {
+//       return res.status(400).send('Invalid role specified');
+//     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+//     const hashedPassword = await bcrypt.hash(password, 10);
     
-    // Include role when creating the user
-    const user = new User({ username, password: hashedPassword, role });
-    await user.save();
+//     // Include role when creating the user
+//     const user = new User({ username, password: hashedPassword, role });
+//     await user.save();
 
-    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.TOKEN_SECRET, { expiresIn: '1h' }); // Optionally include role in the token
+//     const token = jwt.sign({ userId: user._id, role: user.role }, process.env.TOKEN_SECRET, { expiresIn: '1h' }); // Optionally include role in the token
 
-    res.status(201).json({ accessToken: token });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error registering new user' + error.message);
-  }
-});
+//     res.status(201).json({ accessToken: token });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send('Error registering new user' + error.message);
+//   }
+// });
 
 // Login Endpoint
-app.post('/login', async (req, res) => {
-  try {
-    const { username, password } = req.body;
+// app.post('/login', async (req, res) => {
+//   try {
+//     const { username, password } = req.body;
 
-    // Find user by username
-    const user = await User.findOne({ username });
+//     // Find user by username
+//     const user = await User.findOne({ username });
 
-    if (!user) {
-      return res.status(401).json({ message: "Invalid username or password" });
-    }
+//     if (!user) {
+//       return res.status(401).json({ message: "Invalid username or password" });
+//     }
 
-    // Compare passwords
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-      return res.status(401).json({ message: "Invalid username or password" });
-    }
+//     // Compare passwords
+//     const passwordMatch = await bcrypt.compare(password, user.password);
+//     if (!passwordMatch) {
+//       return res.status(401).json({ message: "Invalid username or password" });
+//     }
 
-    // Generate JWT Token, optionally include role in the token
-    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
+//     // Generate JWT Token, optionally include role in the token
+//     const token = jwt.sign({ userId: user._id, role: user.role }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
 
-    res.json({ accessToken: token });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error logging in' + error.message);
-  }
-});
+//     res.json({ accessToken: token });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send('Error logging in' + error.message);
+//   }
+// });
 
 
   

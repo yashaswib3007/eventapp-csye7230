@@ -1,0 +1,89 @@
+/* src/components/HomePage.css */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000000; /* Updated to black */
+    color: white;
+    padding: 10px 20px;
+  }
+   
+  .navbar a {
+    color: #DAA520; /* Updated to gold */
+    padding: 10px;
+    text-decoration: none;
+    margin-left: 10px; /* Adds spacing between links */
+  }
+   
+  .navbar a:hover {
+    color: #FFFFFF; /* Hover effect with white color */
+    text-decoration: underline;
+  }
+   
+  .logo-image {
+    width: 100px; /* Set the width as desired */
+    height: 100px; /* Ensure width and height are equal for a perfect circle */
+    border-radius: 50%; /* This will make the image circular */
+    object-fit: cover; /* This will ensure the image covers the area without stretching */
+    border: 0.5px solid #ffffff;
+  }
+   
+  .logo {
+    background-color: #fff; /* Or set a contrasting background specifically for the logo area */
+    border-radius: 50%; /* This will also make the div containing the image circular */
+    display: inline-block; /* This changes the div's display to work with width and height */
+    overflow: hidden; /* Ensures nothing spills outside the circular boundary */
+  }
+  .carousel-section img {
+    width: 100%;
+    max-height: 300px; /* Adjust based on your design */
+  }
+  
+  .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  /* Existing styles... */
+
+.card {
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+    cursor: pointer; /* Indicates the card is clickable */
+  }
+  
+  .card:hover {
+    transform: translateY(-5px); /* Slightly raise the card */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Add shadow to make it pop */
+  }
+  
+  .card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px 8px 0 0;
+    display: block;
+  }
+  
+  .card-info {
+    padding: 10px; /* Add some padding around the text */
+    background: #fff; /* Ensure text is readable over a light background */
+  }
+  
+  .card-info h3 {
+    margin-top: 0; /* Remove top margin from the first element */
+    color: #333; /* Dark text color for readability */
+    font-size: 16px; /* Slightly larger font size */
+  }
+  
+  .card-info p {
+    margin: 5px 0; /* Add spacing between paragraphs */
+    color: #666; /* Lighter text color for less important text */
+    font-size: 14px; /* Standard font size */
+  }
+  
