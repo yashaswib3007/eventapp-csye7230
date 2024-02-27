@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import Register from './components/Register';
 import Login from './components/Login';
 import Events from './components/Events';
+import Homepage from './components/Homepage'; 
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/events" element={<Events />} />
-        <Route path="/" element={<h1>Welcome to Event Central</h1>} />
+        <Route path="/" element={<Homepage />} /> 
       </Routes>
     </div>
   );
