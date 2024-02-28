@@ -68,7 +68,7 @@ app.post('/event', verifyJWT, async (req, res) => {
     res.status(500).send('Error creating new event: ' + error.message);
   }
 });
- 
+ /*
 app.get('/events', async (req, res) => {
   const { city, neighborhood, date, organizer } = req.query;
   let query = {};
@@ -85,3 +85,38 @@ app.get('/events', async (req, res) => {
     res.status(500).send('Error fetching events: ' + error.message);
   }
 });
+*/
+
+app.get('/events', async (req, res) => {
+  const { cities, neighborhoods, date, organizer } = req.query;
+  let query = {};
+
+  if (cities) {
+    // Assuming cities is a comma-separated string of city names
+    query.city = { $in: cities.split(',') };
+  }
+
+  if (neighborhoods) {
+    // Assuming neighborhoods is a comma-separated string of neighborhood names
+    query.neighborhood = { $in: neighborhoods.split(',') };
+  }
+
+  if (date) {
+    // Fetch events from this date forward
+    query.date = { $gte: new Date(date) };
+  }
+
+  if (organizer) {
+    // Assuming organizer is the ID of the user organizing the events
+    query.organizer = organizer;
+  }
+
+  try {
+    const events = await Event.find(query).populate('organizer', 'username -_id');
+    res.json(events);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching events: ' + error.message);
+  }
+});
+  
