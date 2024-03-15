@@ -32,7 +32,29 @@ function Events() {
       setError('An error occurred. Please try again.');
     }
   };
-
+  function ShareButton({ event }) {
+    const shareEvent = async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: event.title,
+            text: `${event.title} - ${event.description}. Find out more!`,
+            url: window.location.href, // You might want to customize this URL to point to the specific event page if you have one.
+          });
+          console.log('Event shared successfully');
+        } catch (error) {
+          console.error('Error sharing the event', error);
+        }
+      } else {
+        // Fallback for browsers that do not support the Web Share API
+        console.log('Web Share API is not supported in your browser.');
+      }
+    };
+   
+    return (
+  <button onClick={shareEvent}>Share Event</button>
+    );
+  }
   return (
     <div>
       <h2>Events</h2>
@@ -53,6 +75,8 @@ function Events() {
             <p>Neighborhood: {event.neighborhood}</p>
             <p>Date: {new Date(event.date).toLocaleString()}</p>
             <p>Organizer: {event.organizer.username}</p>
+            {/* Share button for each event */}     
+            <ShareButton event={event} />
           </li>
         ))}
       </ul>
