@@ -33,26 +33,110 @@ function Events() {
     }
   };
   function ShareButton({ event }) {
-    const shareEvent = async () => {
+    const [socialMediaId, setSocialMediaId] = useState(null);
+    const [showInput, setShowInput] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [message, setMessage] = useState('');
+  
+    useEffect(() => {
+      const fetchUserData = async () => {
+        setLoading(true);
+        try {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/user`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setSocialMediaId(data.socialMediaId);
+          } else {
+            console.error('Failed to fetch user data');
+          }
+        } catch (error) {
+          console.error('An error occurred while fetching user data', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchUserData();
+    }, []);
+  
+    const handleShareClick = async () => {
+      if (!socialMediaId) {
+        // Show input for socialMediaId if not present
+        setShowInput(true);
+        return;
+      }
+  
+      // Proceed with sharing functionality
       if (navigator.share) {
         try {
           await navigator.share({
             title: event.title,
             text: `${event.title} - ${event.description}. Find out more!`,
-            url: window.location.href, // You might want to customize this URL to point to the specific event page if you have one.
+            url: window.location.href,
           });
           console.log('Event shared successfully');
         } catch (error) {
           console.error('Error sharing the event', error);
         }
       } else {
-        // Fallback for browsers that do not support the Web Share API
         console.log('Web Share API is not supported in your browser.');
       }
     };
-   
+  
+    const handleSubmit = async () => {
+      const updateSocialMediaId = async (newId) => {
+        try {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/user/updateSocialMediaId`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify({ socialMediaId: newId }),
+          });
+  
+          if (response.ok) {
+            setSocialMediaId(newId);
+            setShowInput(false);
+            setMessage('Your social media account has been added.');
+            setTimeout(() => setMessage(''), 3000); // Clear message after 3 seconds
+          } else {
+            console.error('Failed to update social media ID');
+          }
+        } catch (error) {
+          console.error('An error occurred while updating social media ID', error);
+        }
+      };
+  
+      updateSocialMediaId(inputValue);
+    };
+  
+    if (loading) return <p>Loading...</p>;
+  
+    if (showInput) {
+      return (
+        <div>
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Enter your Social Media ID"
+          />
+          <button onClick={handleSubmit}>Submit</button>
+        </div>
+      );
+    }
+  
     return (
-  <button onClick={shareEvent}>Share Event</button>
+      <>
+        <button onClick={handleShareClick}>Share Event</button>
+        {message && <p>{message}</p>}
+      </>
     );
   }
   return (

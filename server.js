@@ -86,6 +86,38 @@ app.get('/events', async (req, res) => {
   }
 });
 */
+app.get('/user', verifyJWT, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId).select('-password'); // Exclude password from the result
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching user data: ' + error.message);
+  }
+  const user = await User.findById(req.user.userId).select('+socialMediaId');
+ 
+});
+ 
+app.post('/user/updateSocialMediaId', verifyJWT, async (req, res) => {
+  const { socialMediaId } = req.body;
+  if (!socialMediaId) {
+    return res.status(400).send('Social media ID is required');
+  }
+ 
+  try {
+    const updatedUser = await User.findByIdAndUpdate(req.user.userId, { socialMediaId }, { new: true }).select('-password');
+    if (!updatedUser) {
+      return res.status(404).send('User not found');
+    }
+    res.json({ message: 'Social media ID updated successfully', user: updatedUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating social media ID: ' + error.message);
+  }
+});
 
 app.get('/events', async (req, res) => {
   const { cities, neighborhoods, date, organizer } = req.query;
