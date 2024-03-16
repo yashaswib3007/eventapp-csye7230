@@ -5,12 +5,23 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const User = require('./models/user'); // Import the User model from user.js
 const Event = require('./event');
+const path = require('path');
 
 require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder to 'view/build'
+  app.use(express.static('view/build'));
+
+  // Handle React routing, return all requests to React app
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'view', 'build', 'index.html'));
+  });
+}
 
 
 const authRoutes = require('./routes/authRoutes');
@@ -32,11 +43,10 @@ const verifyJWT = (req, res, next) => {
 };
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/mydatabase')
-.then(() => console.log('Connected to MongoDB'))
-.catch(error => console.error('Error connecting to MongoDB:', error));
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connection successful'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
-  
 // Protected Route
 app.get('/protected', verifyJWT, (req, res) => {
   res.json({ message: "You have accessed a protected route", user: req.user });
