@@ -152,3 +152,16 @@ app.get('/events', async (req, res) => {
   }
 });
   
+// Endpoint to get details of a specific event by ID
+app.get('/events/:id', async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id).populate('organizer', 'username email -_id');
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+    res.json(event);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching event details', error: error.message });
+  }
+});
