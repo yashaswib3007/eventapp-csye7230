@@ -1,0 +1,253 @@
+/*
+.events-container {
+    background-color: #f0f8ff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .events-title {
+    color: #0275d8;
+    text-align: center;
+  }
+  
+  .events-filter {
+    display: block;
+    margin: 0 auto 20px auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 80%;
+  }
+  
+  .events-apply-button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #0275d8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .events-apply-button:hover {
+    background-color: #025aa5;
+  }
+  
+  .events-error {
+    color: red;
+    text-align: center;
+  }
+  
+  .events-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .event-item {
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  
+  .event-title {
+    color: #0275d8;
+    margin-bottom: 5px;
+  }
+  
+  .event-description,
+  .event-city,
+  .event-neighborhood,
+  .event-date,
+  .event-organizer {
+    color: #333;
+    margin: 5px 0;
+  }
+  
+  .event-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  button {
+    background-color: #0275d8;
+    color: white;
+  }
+  
+  button:first-child {
+    margin-right: 10px;
+  }
+  */
+
+  /* Base styles */
+/* Base styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #eef7fa;
+    color: #333;
+}
+
+.events-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.events-title {
+    color: #0275d8;
+    text-align: left;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.events-filter {
+    width: calc(100% - 40px);
+    padding: 10px;
+    margin-bottom: 1rem;
+    border: 2px solid #0275d8;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    font-size: 1rem;
+    background-color: #0275d8;
+    color: white;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    background: #025aa5;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: -1;
+    transition: top 0.3s ease;
+}
+
+button:hover::before {
+    top: 0;
+}
+
+button:hover {
+    color: #fff;
+}
+
+.events-error {
+    color: red;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.events-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.event-item {
+    background-color: #fff;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    border-left: 5px solid #0275d8;
+}
+
+.event-item:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.event-title, .event-description, .event-city, .event-neighborhood, .event-date, .event-organizer {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.event-title {
+    color: #0275d8;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.event-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+/* Additional styles for ShareButton input and submit */
+.share-input, .share-submit {
+    padding: 10px;
+    margin: 5px 0; /* Adjust spacing as needed */
+    border: 2px solid #0275d8;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.share-submit {
+    background-color: #025aa5; /* Darker blue for contrast */
+    color: white;
+    border: none;
+}
+
+.share-submit:hover {
+    background-color: #0275d8; /* Lighter blue on hover */
+}
+
+.filter-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.filter-section input {
+    flex: 1;
+    margin-right: 1rem;
+}
+
+@media (max-width: 768px) {
+    .filter-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-section input {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+}
